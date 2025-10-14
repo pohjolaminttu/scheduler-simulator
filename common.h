@@ -10,4 +10,11 @@
 #define FILENAME "common.h"
 #define PROJECT_ID 0
 
+struct SharedData
+{
+    char task_type[12]; /*Maximum is "tranformer" + \0 */
+    char cluster[4];
+    int ready; /*Last writer: 1 = handler, 2 = scheduler*/
+};
+
 #endif

@@ -6,16 +6,18 @@ int main()
 
     /*Let's first create the shared memory*/
     int shMemId /*Shared memory id*/
-        = shmget(key, sizeof(struct SharedData), 0666 | IPC_CREAT);
+        = shmget(key, 1024 /*One kilobyte, later change this to sizeOf(struct x)*/,
+                 0666 | IPC_CREAT);
 
     /*Then we have to attach to that created (shared) memory*/
-    struct SharedData *data_ptr /*Pointer to the address of the shared memory*/
-        = (struct SharedData *)shmat(shMemId, NULL, 0);
+    char *shMemAdd /*Pointer to the address of the shared memory*/
+        = shmat(shMemId, NULL, 0);
 
-    /*TODO read from handler when ready = 1, make modifications etc*/
+    /*Writing to memory*/
+    fgets(shMemAdd, 1024, stdin);
 
     /*Detach the memory*/
-    shmdt(data_ptr);
+    shmdt(shMemAdd);
 
     return 0; /*To indicate that the program has ended succesfully*/
 }
